@@ -153,7 +153,7 @@ module.exports = function(grunt) {
 			watch: {
 				recess: {
 					files: 'projects/<%= project.name %>/assets/less/*.less',
-					tasks: ['update-css', 'bump']
+					tasks: ['update-css:<%= project.name %>', 'bump:<%= project.name %>']
 				}
 			}
 		};
