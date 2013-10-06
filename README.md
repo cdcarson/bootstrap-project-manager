@@ -52,7 +52,15 @@ $ grunt <command>:<project-name>
 $ grunt init:foobar
 ```
 
-This command initializes a new project. It creates the following directories and files:
+This command initializes a new project. It:
+
+ - Creates the `bootstrap-roject-manger/projects` folder if one does not exist (i.e. this is your first project.) This folder is `.gitignore`'d, and is where your projects are stored. 
+ - Under that directory, it creates the project folder named with what you provided to the command, in this case `foobar`.
+ - Copies the Bootstrap fonts from `boostrap/fonts` into `foobar/assets/fonts`. See [update-fonts](#update-fonts).
+ - Concats and minifies the js `boostrap/js` into `foobar/assets/js`. See [update-bootstrap-js](#update-bootstrap-js)
+ - Creates `less/style.less`. This file contains one line: `@import "../../../bootstrap/less/bootstrap";`. That file is compiled and minified. See [update-css](#update-css)
+
+The file layout:
 
 ```
 - bootstrap-project-manager
@@ -75,15 +83,10 @@ This command initializes a new project. It creates the following directories and
       - project.json
 ```
 
-`grunt init:foobar` does the following:
 
- - Creates the `projects` folder if one does not exist (i.e. this is your first project.) This folder is `.gitignore`'d, and is where your projects are stored. 
- - Creates the project folder named with the project name you provided to the command, in this case `foobar`.
- - Copies the Bootstrap fonts from `boostrap/fonts` into `foobar/assets/fonts`.
- - Concats and minifies the js `boostrap/js` into `foobar/assets/js`
- - Creates `less/style.less`. This file contains one line: `@import "../../../bootstrap/less/bootstrap";`. 
+
  
-ß
+
 ### update-fonts
 
 ```
