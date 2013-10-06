@@ -57,14 +57,14 @@ module.exports = function(grunt) {
 					banner: '<%= banner %>'
 				},
 				full: {
-					src: ['projects/<%= project.name %>/less/style.less'],
+					src: ['projects/<%= project.name %>/assets/less/style.less'],
 					dest: 'projects/<%= project.name %>/assets/css/style.css'
 				},
 				min: {
 					options: {
 						compress: true
 					},
-					src: ['projects/<%= project.name %>/less/style.less'],
+					src: ['projects/<%= project.name %>/assets/less/style.less'],
 					dest: 'projects/<%= project.name %>/assets/css/style.min.css'
 				}
 			},
@@ -152,7 +152,7 @@ module.exports = function(grunt) {
 			},
 			watch: {
 				recess: {
-					files: 'projects/<%= project.name %>/less/*.less',
+					files: 'projects/<%= project.name %>/assets/less/*.less',
 					tasks: ['update-css', 'bump']
 				}
 			}
