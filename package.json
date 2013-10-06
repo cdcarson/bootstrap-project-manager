@@ -4,8 +4,13 @@
   , "description": "Bootstrap Project Manager"
   , "version": "1.0.1"
   , "keywords": ["bootstrap", "css"]
-  , "homepage": "http://modernmedia.co"
-  , "author": "Modern Media."
+  , "homepage": "https://github.com/cdcarson/bootstrap-project-manager"
+  , "author": "Christopher Carson."
+  , "repository": {
+		"type": "git",
+		"url": "https://github.com/cdcarson/bootstrap-project-manager.git"
+
+	}
   , "licenses": [
     {
         "type": "Apache-2.0"

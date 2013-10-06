@@ -3,30 +3,10 @@
 module.exports = function(grunt) {
 	"use strict";
 
+
 	var fs = require('fs')
 		,_ = require('underscore')
 		,path = require('path');
-
-
-
-	var read_dir_for_js = function(p){
-		var found = [];
-		var names = fs.readdirSync(p);
-		_.each(names, function(name){
-			var fp = path.join(p, name);
-			var stat = fs.statSync(fp);
-			if (stat.isDirectory(fp)){
-				found.push(read_dir_for_js(fp));
-			} else {
-				if ('.js' == path.extname(fp)){
-					found.push(fp);
-				}
-			}
-
-		});
-		return found;
-	};
-
 
 	var init_project = function(project_name){
 		if (grunt.config.get('initialized') == true) return grunt.config.get('project');
@@ -77,14 +57,14 @@ module.exports = function(grunt) {
 					banner: '<%= banner %>'
 				},
 				full: {
-					src: ['projects/<%= project.name %>/src/less/style.less'],
+					src: ['projects/<%= project.name %>/less/style.less'],
 					dest: 'projects/<%= project.name %>/assets/css/style.css'
 				},
 				min: {
 					options: {
 						compress: true
 					},
-					src: ['projects/<%= project.name %>/src/less/style.less'],
+					src: ['projects/<%= project.name %>/less/style.less'],
 					dest: 'projects/<%= project.name %>/assets/css/style.min.css'
 				}
 			},
@@ -162,8 +142,7 @@ module.exports = function(grunt) {
 					]
 
 				},
-
-
+				
 				update_js: {
 					files: []
 				},
@@ -173,16 +152,16 @@ module.exports = function(grunt) {
 			},
 			watch: {
 				recess: {
-					files: 'projects/<%= project.name %>/src/less/*',
-					tasks: ['compile:<%= project.name %>']
+					files: 'projects/<%= project.name %>/less/*.less',
+					tasks: ['update-css', 'bump']
 				}
 			}
 		};
 
 
 
-		var found = read_dir_for_js(path.resolve('src/js'));
-		console.log(found);
+	
+
 
 
 		_.each(project.targets, function(target){
@@ -226,56 +205,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-recess');
 
 
-	// Project initialization.
-	grunt.registerTask('init', 'Initialize a project.', function(project_name){
-		var project = init_project(project_name);
-		if (! project){
-			return false;
-		}
-		var p = grunt.config.get('project_path');
-		if (fs.existsSync(p)){
-			grunt.log.error('A project at ' + p + ' already exists.');
-			return false;
-		}
-		grunt.task.run(
-			'copy:init_project',
-			'copy:update_fonts',
-
-			'compile'
-		);
-		return true;
-	});
-
-	grunt.registerTask('compile', 'Compile a project\'s less into css.', function(project_name){
-		var project = init_project(project_name);
-		if (! project){
-			return false;
-		}
-		grunt.task.run(
-			'recess:full',
-			'recess:min',
-			'clean:css',
-			'clean:js',
-			'clean:fonts',
-			'copy:css',
-			'copy:js',
-			'copy:fonts',
-			'bump'
-		);
-		return true;
-	});
-
-	grunt.registerTask('watcher','Watch a project\'s less files and compile into css.',function(project_name){
-		var project = init_project(project_name);
-		if (! project){
-			return false;
-		}
-		grunt.task.run(
-			'compile',
-			'watch'
-		);
-		return true;
-	});
+	
 	grunt.registerTask('bump', 'Bump a project\'s version.', function(project_name){
 		var project = init_project(project_name);
 		if (! project){
@@ -306,6 +236,61 @@ module.exports = function(grunt) {
 		var q = ['concat:bootstrap','uglify:bootstrap', 'clean:update_js', 'copy:update_js'];
 		if (project_name) q.push('bump');
 		grunt.task.run(q);
+		return true;
+	});
+
+	grunt.registerTask('update-css', 'Update a project\'s css.', function(project_name){
+		var project = init_project(project_name);
+		if (! project){
+			return false;
+		}
+		var q = [
+			'recess:full',
+			'recess:min',
+			'clean:update_css',
+			'copy:update_css'
+		];
+		if (project_name) q.push('bump');
+		grunt.task.run(q);
+		return true;
+	});
+
+
+	// Project initialization.
+	grunt.registerTask('init', 'Initialize a project.', function(project_name){
+
+		var project = init_project(project_name);
+		if (! project){
+			return false;
+		}
+		var p = grunt.config.get('project_path');
+		if (fs.existsSync(p)){
+			grunt.log.error('A project at ' + p + ' already exists.');
+			return false;
+		}
+		var q = [
+			'copy:init_project',
+			'update-fonts',
+			'update-bootstrap-js',
+			'update-css',
+			'bump'
+		];
+		grunt.task.run(q);
+		return true;
+	});
+
+
+
+	grunt.registerTask('watcher','Watch a project\'s less files and compile into css.',function(project_name){
+		var project = init_project(project_name);
+		if (! project){
+			return false;
+		}
+		grunt.task.run(
+			'update-css',
+			'bump',
+			'watch'
+		);
 		return true;
 	});
 

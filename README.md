@@ -46,13 +46,13 @@ All commands take the the following form:
 $ grunt <command>:<project-name>
 ```
 
-### Initialize a project
+### init
 
 ```
 $ grunt init:foobar
 ```
 
-This creates the following directories and files:
+This command initializes a new project. It creates the following directories and files:
 
 ```
 - bootstrap-project-manager
@@ -77,31 +77,14 @@ This creates the following directories and files:
 
 `grunt init:foobar` does the following:
 
- - Creates the `projects` folder if one does not exist (i.e. this is your first project.) This folder is `.gitignore`'d, and is where your projects are stored by default. 
+ - Creates the `projects` folder if one does not exist (i.e. this is your first project.) This folder is `.gitignore`'d, and is where your projects are stored. 
  - Creates the project folder named with the project name you provided to the command, in this case `foobar`.
  - Copies the Bootstrap fonts from `boostrap/fonts` into `foobar/assets/fonts`.
  - Concats and minifies the js `boostrap/js` into `foobar/assets/js`
  - Creates `less/style.less`. This file contains one line: `@import "../../../bootstrap/less/bootstrap";`. 
  
-
-
-### Compile a project's LESS
-
-```
-$ grunt compile:foobar
-```
-
- - Compiles `less/style.less` into `assets/css/style.css` and `assets/css/style.min.css` using `recess`.
-- The `less/` directory is where you'll make your style changes.  All the files in this directory are watched by the `watcher` command below; but only `less/style.less` is compiled  That means that you have to `@import` the LESS files you want into `style.less`.
-
-
-### Watch a project
-
-```
-$ grunt watcher:foobar
-```
-
-### Update Fonts
+ß
+### update-fonts
 
 ```
 $ grunt update-fonts:foobar
@@ -111,7 +94,35 @@ $ grunt update-fonts:foobar
  - For each target you've defined:
    - Cleans the `target/assets/fonts` directory with `clean`. This means that fonts you've added to the target without adding them to `foobar/assets/fonts` **will be deleted**.
    - Copies everything from `foobar/assets/fonts` to `target/assets/fonts`
+   
+### update-bootstrap-js
 
+```
+$ grunt update-bootstrap-js:foobar
+```
+ - Creates fresh copies of `bootstrap.js` and `bootstrap.min.js` in `foobar/assets/js` from the bootstrap source code using `concat` and `uglify`. Note that other js files and directories in `foobar/assets/js` are **not overwritten**.
+ - For each target you've defined:
+    - Cleans the `target/assets/js` directory with `clean`. This means that anything you've added to the target without adding them to `foobar/assets/js` **will be deleted**.
+   - Copies everything from `foobar/assets/js` to `target/assets/js`
+
+### update-css
+
+```
+$ grunt update-css:foobar
+```
+
+ - Compiles `less/style.less` into `foobar/assets/css/style.css` and `foobar/assets/css/style.min.css` using `recess`. Note that other css files and directories in `foobar/assets/css` are **not overwritten**.
+- The `less/` directory is where you'll make your style changes.  All the files in this directory are watched by the `watcher` command below; but only `less/style.less` is compiled  That means that you have to `@import` the LESS files you want into `style.less`.
+- For each target you've defined:
+    - Cleans the `target/assets/css` directory with `clean`. This means that anything you've added to the target without adding them to `foobar/assets/css` **will be deleted**.
+   - Copies everything from `foobar/assets/css` to `target/assets/css`
+
+
+### watch-css
+
+```
+$ grunt watch-css:foobar
+```
 
 
 
