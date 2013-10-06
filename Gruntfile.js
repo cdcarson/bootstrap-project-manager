@@ -107,9 +107,9 @@ module.exports = function(grunt) {
 
 			clean: {
 				options: {force: true},
-				css: [],
+				update_css: [],
 				update_fonts: [],
-				js: []
+				update_js: []
 			},
 			copy: {
 				init_project: {
@@ -156,6 +156,7 @@ module.exports = function(grunt) {
 
 		_.each(project.targets, function(target){
 			cfg.clean.update_fonts.push(target + '/assets/fonts');
+			cfg.clean.update_js.push(target + '/assets/js');
 			cfg.copy.update_fonts.files.push({
 				expand: true,
 				src: ['**'],
@@ -207,8 +208,7 @@ module.exports = function(grunt) {
 		grunt.task.run(
 			'copy:init_project',
 			'copy:update_fonts',
-			'concat:bootstrap',
-			'uglify:bootstrap',
+
 			'compile'
 		);
 		return true;
@@ -261,6 +261,17 @@ module.exports = function(grunt) {
 			return false;
 		}
 		var q = ['clean:update_fonts', 'copy:update_fonts'];
+		if (project_name) q.push('bump');
+		grunt.task.run(q);
+		return true;
+	});
+
+	grunt.registerTask('update-bootstrap-js', 'Update a project\'s bootstrap js.', function(project_name){
+		var project = init_project(project_name);
+		if (! project){
+			return false;
+		}
+		var q = ['concat:bootstrap','uglify:bootstrap', 'clean:update_js', 'copy:update_js'];
 		if (project_name) q.push('bump');
 		grunt.task.run(q);
 		return true;

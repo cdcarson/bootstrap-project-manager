@@ -101,6 +101,16 @@ $ grunt compile:foobar
 $ grunt watcher:foobar
 ```
 
+### Update Fonts
+
+```
+$ grunt update-fonts:foobar
+```
+
+ - Freshly copies the Bootstrap fonts from `bootstrap/fonts` to `foobar/assets/fonts`. Note that other font files and directories in `foobar/assets/fonts` are **not overwritten**.
+ - For each target you've defined:
+   - Cleans the `target/assets/fonts` directory with `clean`. This means that fonts you've added to the target without adding them to `foobar/assets/fonts` **will be deleted**.
+   - Copies everything from `foobar/assets/fonts` to `target/assets/fonts`
 
 
 
