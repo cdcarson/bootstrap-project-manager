@@ -281,7 +281,7 @@ module.exports = function(grunt) {
 
 
 
-	grunt.registerTask('watcher','Watch a project\'s less files and compile into css.',function(project_name){
+	grunt.registerTask('watch-css','Watch a project\'s less files and compile into css.',function(project_name){
 		var project = init_project(project_name);
 		if (! project){
 			return false;
