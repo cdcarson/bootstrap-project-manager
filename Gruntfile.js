@@ -9,6 +9,23 @@ module.exports = function(grunt) {
 
 
 
+	var read_dir_for_js = function(p){
+		var found = [];
+		var names = fs.readdirSync(p);
+		_.each(names, function(name){
+			var fp = path.join(p, name);
+			var stat = fs.statSync(fp);
+			if (stat.isDirectory(fp)){
+				found.push(read_dir_for_js(fp));
+			} else {
+				if ('.js' == path.extname(fp)){
+					found.push(fp);
+				}
+			}
+
+		});
+		return found;
+	};
 
 
 	var init_project = function(project_name){
@@ -60,33 +77,44 @@ module.exports = function(grunt) {
 					banner: '<%= banner %>'
 				},
 				full: {
-					src: ['projects/<%= project.name %>/less/style.less'],
+					src: ['projects/<%= project.name %>/src/less/style.less'],
 					dest: 'projects/<%= project.name %>/assets/css/style.css'
 				},
 				min: {
 					options: {
 						compress: true
 					},
-					src: ['projects/<%= project.name %>/less/style.less'],
+					src: ['projects/<%= project.name %>/src/less/style.less'],
 					dest: 'projects/<%= project.name %>/assets/css/style.min.css'
 				}
 			},
 			uglify: {
-				options: {
-					banner: '<%= banner %>',
-					report: 'min'
-				},
+
 				bootstrap: {
+					options: {
+						banner: '<%= banner %>',
+						report: 'min'
+					},
 					src: ['<%= concat.bootstrap.dest %>'],
 					dest: 'projects/<%= project.name %>/assets/js/<%= bootstrap_pkg.name %>.min.js'
+				},
+				user: {
+					options:{
+						banner: '/*!\n' +
+							' * <%= project.name %> v. <%= project.version %> Compiled by <%= pkg.english_name %> at <%= date %>.\n' +
+							' * \n',
+						report: 'min',
+						files: {}
+					}
 				}
 			},
 			concat: {
-				options: {
-					banner: '<%= banner %><%= jqueryCheck %>',
-					stripBanners: false
-				},
+
 				bootstrap: {
+					options: {
+						banner: '<%= banner %><%= jqueryCheck %>',
+						stripBanners: false
+					},
 					src: [
 						'<%= bootstrap_directory %>/js/transition.js',
 						'<%= bootstrap_directory %>/js/alert.js',
@@ -145,7 +173,7 @@ module.exports = function(grunt) {
 			},
 			watch: {
 				recess: {
-					files: 'projects/<%= project.name %>/less/*',
+					files: 'projects/<%= project.name %>/src/less/*',
 					tasks: ['compile:<%= project.name %>']
 				}
 			}
@@ -153,10 +181,14 @@ module.exports = function(grunt) {
 
 
 
+		var found = read_dir_for_js(path.resolve('src/js'));
+		console.log(found);
+
 
 		_.each(project.targets, function(target){
 			cfg.clean.update_fonts.push(target + '/assets/fonts');
 			cfg.clean.update_js.push(target + '/assets/js');
+			cfg.clean.update_css.push(target + '/assets/css');
 			cfg.copy.update_fonts.files.push({
 				expand: true,
 				src: ['**'],
