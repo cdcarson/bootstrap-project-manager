@@ -260,7 +260,7 @@ module.exports = function(grunt) {
 		if (! project){
 			return false;
 		}
-		var q = ['copy:update_fonts'];
+		var q = ['clean:update_fonts', 'copy:update_fonts'];
 		if (project_name) q.push('bump');
 		grunt.task.run(q);
 		return true;
