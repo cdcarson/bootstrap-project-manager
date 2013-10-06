@@ -1,0 +1,25 @@
+{
+    "name": "bootstrap-project-manager"
+  , "english_name": "Bootstrap Project Manager"
+  , "description": "Bootstrap Project Manager"
+  , "version": "1.0.1"
+  , "keywords": ["bootstrap", "css"]
+  , "homepage": "http://modernmedia.co"
+  , "author": "Modern Media."
+  , "licenses": [
+    {
+        "type": "Apache-2.0"
+      , "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ]
+  , "devDependencies": {
+      "grunt": "~0.4.1"
+    , "grunt-contrib-clean": "~0.5.0"
+    , "grunt-contrib-concat": "~0.3.0"
+    , "grunt-contrib-copy": "~0.4.1"
+    , "grunt-contrib-uglify": "~0.2.4"
+    , "grunt-contrib-watch": "~0.5.3"
+    , "grunt-recess": "~0.4.0"
+    , "underscore": "~1.5.2"
+  }
+}
