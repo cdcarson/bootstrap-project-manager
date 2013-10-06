@@ -136,10 +136,10 @@ module.exports = function(grunt) {
 				},
 
 
-				js: {
+				update_js: {
 					files: []
 				},
-				css: {
+				update_css: {
 					files: []
 				}
 			},
@@ -163,13 +163,13 @@ module.exports = function(grunt) {
 				dest: target + '/assets/fonts',
 				cwd: 'projects/<%= project.name %>/assets/fonts/'
 			});
-			cfg.copy.js.files.push({
+			cfg.copy.update_js.files.push({
 				expand: true,
 				src: ['**'],
 				dest: target + '/assets/js',
 				cwd: 'projects/<%= project.name %>/assets/js/'
 			});
-			cfg.copy.css.files.push({
+			cfg.copy.update_css.files.push({
 				expand: true,
 				src: ['**'],
 				dest: target + '/assets/css',
