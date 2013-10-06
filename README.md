@@ -95,7 +95,12 @@ $ grunt compile:foobar
 - The `less/` directory is where you'll make your style changes.  All the files in this directory are watched by the `watcher` command below; but only `less/style.less` is compiled  That means that you have to `@import` the LESS files you want into `style.less`.
 
 
-### Watch
+### Watch a project
+
+```
+$ grunt watcher:foobar
+```
+
 
 
 

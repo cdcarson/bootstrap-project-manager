@@ -119,7 +119,12 @@ module.exports = function(grunt) {
 							src: ['**'],
 							dest: 'projects/<%= project.name %>',
 							cwd: 'sample-project/'
-						},
+						}
+					]
+
+				},
+				update_fonts: {
+					files: [
 						{
 							expand: true,
 							src: ['**'],
@@ -130,9 +135,7 @@ module.exports = function(grunt) {
 
 				},
 
-				fonts: {
-					files: []
-				},
+
 				js: {
 					files: []
 				},
@@ -152,10 +155,8 @@ module.exports = function(grunt) {
 
 
 		_.each(project.targets, function(target){
-			cfg.clean.css.push(target + '/assets/css');
-			cfg.clean.fonts.push(target + '/assets/fonts');
-			cfg.clean.js.push(target + '/assets/js');
-			cfg.copy.fonts.files.push({
+
+			cfg.copy.update_fonts.files.push({
 				expand: true,
 				src: ['**'],
 				dest: target + '/assets/fonts',
@@ -205,6 +206,7 @@ module.exports = function(grunt) {
 		}
 		grunt.task.run(
 			'copy:init_project',
+			'copy:update_fonts',
 			'concat:bootstrap',
 			'uglify:bootstrap',
 			'compile'
@@ -250,6 +252,17 @@ module.exports = function(grunt) {
 		var p = path.join('projects', project.name);
 		var cfg_p = path.join(p, 'project.json');
 		grunt.file.write(cfg_p, JSON.stringify( project, null, '\t'));
+		return true;
+	});
+
+	grunt.registerTask('update-fonts', 'Update a project\'s fonts.', function(project_name){
+		var project = init_project(project_name);
+		if (! project){
+			return false;
+		}
+		var q = ['copy:update_fonts'];
+		if (project_name) q.push('bump');
+		grunt.task.run(q);
 		return true;
 	});
 
