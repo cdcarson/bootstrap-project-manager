@@ -93,7 +93,7 @@ $ grunt update-fonts:foobar
 ```
 
  - Freshly copies the Bootstrap fonts from `bootstrap/fonts` to `foobar/assets/fonts`. Note that other font files and directories in `foobar/assets/fonts` are **not overwritten**.
- - For each [target you've defined](adding-additional-targets):
+ - For each [target you've defined](#adding-additional-targets):
    - Cleans the `target/assets/fonts` directory with `clean`. This means that fonts you've added to the target without adding them to `foobar/assets/fonts` **will be deleted**.
    - Copies everything from `foobar/assets/fonts` to `target/assets/fonts`
 - [Bumps](#bump) the version number if called directly from the command line
@@ -104,7 +104,7 @@ $ grunt update-fonts:foobar
 $ grunt update-bootstrap-js:foobar
 ```
  - Creates fresh copies of `bootstrap.js` and `bootstrap.min.js` in `foobar/assets/js` from the bootstrap source code using `concat` and `uglify`. Note that other js files and directories in `foobar/assets/js` are **not overwritten**.
- - For each [target you've defined](adding-additional-targets):
+ - For each [target you've defined](#adding-additional-targets):
     - Cleans the `target/assets/js` directory with `clean`. This means that anything you've added to the target without adding them to `foobar/assets/js` **will be deleted**.
    - Copies everything from `foobar/assets/js` to `target/assets/js`
 - [Bumps](#bump) the version number if called directly from the command line
@@ -117,7 +117,7 @@ $ grunt update-css:foobar
 
  - Compiles `less/style.less` into `foobar/assets/css/style.css` and `foobar/assets/css/style.min.css` using `recess`. Note that other css files and directories in `foobar/assets/css` are **not overwritten**.
 - The `less/` directory is where you'll make your style changes.  All the files in this directory are watched by the `watcher` command below; but only `less/style.less` is compiled  That means that you have to `@import` the LESS files you want into `style.less`.
-- For each [target you've defined](adding-additional-targets):
+- For each [target you've defined](#adding-additional-targets):
     - Cleans the `target/assets/css` directory with `clean`. This means that anything you've added to the target without adding them to `foobar/assets/css` **will be deleted**.
    - Copies everything from `foobar/assets/css` to `target/assets/css`
 - [Bumps](#bump) the version number if called directly from the command line
