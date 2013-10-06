@@ -108,7 +108,7 @@ module.exports = function(grunt) {
 			clean: {
 				options: {force: true},
 				css: [],
-				fonts: [],
+				update_fonts: [],
 				js: []
 			},
 			copy: {
@@ -155,7 +155,7 @@ module.exports = function(grunt) {
 
 
 		_.each(project.targets, function(target){
-
+			cfg.clean.update_fonts.push(target + '/assets/fonts');
 			cfg.copy.update_fonts.files.push({
 				expand: true,
 				src: ['**'],
